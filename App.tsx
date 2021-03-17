@@ -1,12 +1,15 @@
 import React from 'react'
 import PlaidLink from './PlaidLink'
+import Config from './config'
 
 export default function App() {
   return (
     <PlaidLink
-      linkToken='link-sandbox-f6e9d5a0-f496-49b8-8341-b5ef25a99fec'
+      linkToken={Config.TEST_LINK_TOKEN}
       onEvent={(event) => console.log(event)}
       onExit={(exit) => console.log(exit)}
+      onReady={() => console.log("Plaid ready")}
+      onError={(event, webview) => {}}
       onSuccess={(success) => console.log(success)}
     />
   )
