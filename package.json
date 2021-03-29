@@ -2,7 +2,7 @@
   "name": "@burstware/expo-plaid-link",
   "version": "1.0.2",
   "description": "Use the official Plaid Link flow inside your expo app.",
-  "main": "PlaidLink.tsx",
+  "main": "index.ts",
   "homepage": "https://github.com/burstware/expo-plaid-link#readme",
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-web": "~0.13.12",
-    "react-native-webview": "11.2.5"
+    "react-native-webview": "11.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

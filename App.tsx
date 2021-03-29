@@ -1,5 +1,5 @@
 import React from 'react'
-import PlaidLink from './PlaidLink'
+import PlaidLink from '.'
 import Config from './config'
 
 export default function App() {
