@@ -85,27 +85,6 @@ export default function PlaidLink({
     })
 
     switch (eventName) {
-      case 'exit':
-        onExit && onExit({
-          error: {
-            errorCode: LinkErrorCode[errorCode as keyof typeof LinkErrorCode],
-            errorMessage: payload.error_message as string,
-            errorType: LinkErrorType[errorType as keyof typeof LinkErrorType],
-          },
-          metadata: {
-            status:
-              LinkExitMetadataStatus[
-                exitStatus as keyof typeof LinkExitMetadataStatus
-              ],
-            institution: {
-              id: institutionId,
-              name: institutionName,
-            },
-            linkSessionId,
-            requestId,
-          },
-        })
-        break
       case 'connected':
         const publicToken = payload.metadata.public_token as string
         const { accounts } = payload.metadata;
@@ -126,6 +105,27 @@ export default function PlaidLink({
       case 'acknowledged':
         break
       case 'event':
+        if (payload.eventName === 'EXIT') {
+          onExit && onExit({
+            error: {
+              errorCode: LinkErrorCode[errorCode as keyof typeof LinkErrorCode],
+              errorMessage: payload.error_message as string,
+              errorType: LinkErrorType[errorType as keyof typeof LinkErrorType],
+            },
+            metadata: {
+              status:
+                LinkExitMetadataStatus[
+                  exitStatus as keyof typeof LinkExitMetadataStatus
+                ],
+              institution: {
+                id: institutionId,
+                name: institutionName,
+              },
+              linkSessionId,
+              requestId,
+            },
+          })
+        }
         break
       default:
         console.warn('Unhandled plaid event: ', payload)
@@ -147,3 +147,4 @@ export default function PlaidLink({
     />
   )
 }
+
