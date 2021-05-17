@@ -22,7 +22,7 @@ const injectedJavaScript = `(function() {
   window.postMessage = function(data) {
     window.ReactNativeWebView.postMessage(data);
   };
-})()`;
+})()`
 
 export default function PlaidLink({
   linkToken,
@@ -36,7 +36,7 @@ export default function PlaidLink({
 
   const handleNavigationStateChange = (event: any) => {
     if (event.url.startsWith('https://cdn.plaid.com')) {
-      return true;
+      return true
     }
 
     return false
@@ -44,10 +44,10 @@ export default function PlaidLink({
 
   const handlePlaidEvent = (payload: any) => {
     if (!payload.action) {
-      return;
+      return
     }
 
-    const eventName = payload.action.split('::')[1] as string;
+    const eventName = payload.action.split('::')[1] as string
 
     if (eventName == 'acknowledged') {
       return
@@ -66,47 +66,53 @@ export default function PlaidLink({
     const institutionSearchQuery = payload.institution_search_query as string
     const timestamp = payload.timestamp as string
 
-    onEvent && onEvent({
-      eventName,
-      metadata: {
-        linkSessionId,
-        mfaType,
-        requestId,
-        viewName,
-        errorCode,
-        errorMessage,
-        errorType,
-        exitStatus,
-        institutionId,
-        institutionName,
-        institutionSearchQuery,
-        timestamp,
-      },
-    })
+    onEvent &&
+      onEvent({
+        eventName,
+        metadata: {
+          linkSessionId,
+          mfaType,
+          requestId,
+          viewName,
+          errorCode,
+          errorMessage,
+          errorType,
+          exitStatus,
+          institutionId,
+          institutionName,
+          institutionSearchQuery,
+          timestamp,
+        },
+      })
 
     switch (eventName) {
       case 'connected':
         const publicToken = payload.metadata.public_token as string
-        const { accounts } = payload.metadata;
-        onSuccess && onSuccess({
-          publicToken,
-          metadata: {
-            institution: {
-              id: institutionId,
-              name: institutionName,
+        const { accounts } = payload.metadata
+        onSuccess &&
+          onSuccess({
+            publicToken,
+            metadata: {
+              institution: {
+                id: institutionId,
+                name: institutionName,
+              },
+              accounts,
+              linkSessionId,
             },
-            accounts,
-            linkSessionId,
-          },
-        })
-        break;
+          })
+        break
       case 'ready':
         onReady && onReady()
       case 'acknowledged':
         break
       case 'event':
-        if (payload.eventName === 'EXIT') {
-          onExit && onExit({
+        if (payload.eventName !== 'EXIT') {
+          break
+        }
+      case 'exit':
+        onExit &&
+          onExit({
             error: {
               errorCode: LinkErrorCode[errorCode as keyof typeof LinkErrorCode],
               errorMessage: payload.error_message as string,
@@ -125,7 +131,6 @@ export default function PlaidLink({
               requestId,
             },
           })
-        }
         break
       default:
         console.warn('Unhandled plaid event: ', payload)
@@ -138,13 +143,14 @@ export default function PlaidLink({
         uri: `https://cdn.plaid.com/link/v2/stable/link.html?isWebView=true&token=${linkToken}`,
       }}
       ref={(ref) => (webviewRef = ref)}
-      onError={(event: WebViewErrorEvent) => onError && onError(event, webviewRef)}
-      onReady={() => onReady && onReady() }
+      onError={(event: WebViewErrorEvent) =>
+        onError && onError(event, webviewRef)
+      }
+      onReady={() => onReady && onReady()}
       originWhitelist={['https://*']}
       onShouldStartLoadWithRequest={handleNavigationStateChange}
       injectedJavaScript={injectedJavaScript}
-      onMessage={(e)=> handlePlaidEvent(JSON.parse(e.nativeEvent.data))}
+      onMessage={(e) => handlePlaidEvent(JSON.parse(e.nativeEvent.data))}
     />
   )
 }
-
