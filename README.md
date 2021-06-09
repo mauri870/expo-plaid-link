@@ -10,6 +10,8 @@
 
 Use the official [Plaid Link](https://plaid.com/docs/link/) flow inside your expo app.
 
+> This is a fork that uses window.onMessage to receive plaid events.
+
 <p align="center">
   <a href="https://www.burstware.com/expo-plaid-link">
       <img src="https://plaid.com/assets/img/products/link-example-img.png" width="30%" />
@@ -19,7 +21,7 @@ Use the official [Plaid Link](https://plaid.com/docs/link/) flow inside your exp
 ## Installation
 
 ```bash
-yarn add @burstware/expo-plaid-link
+yarn add https://github.com/mauri870/expo-plaid-link#stable
 ```
 
 ## Usage
