@@ -150,7 +150,14 @@ export default function PlaidLink({
       originWhitelist={['https://*']}
       onShouldStartLoadWithRequest={handleNavigationStateChange}
       injectedJavaScript={injectedJavaScript}
-      onMessage={(e) => handlePlaidEvent(JSON.parse(e.nativeEvent.data))}
+      onMessage={(ev) => {
+        if (ev.nativeEvent.data) {
+          try {
+            const evt = JSON.parse(ev.nativeEvent.data)
+            handlePlaidEvent(evt)
+          } catch (e) {}
+        }
+      }}
     />
   )
 }
