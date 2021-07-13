@@ -35,7 +35,7 @@ export default function PlaidLink({
   let webviewRef: any = useRef()
 
   const handleNavigationStateChange = (event: any) => {
-    if (event.url.startsWith('https://cdn.plaid.com')) {
+    if (event.url.startsWith('https://')) {
       return true
     }
 
