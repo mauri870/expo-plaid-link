@@ -53,7 +53,7 @@ export default function PlaidLink({
       return
     }
 
-    const linkSessionId = payload.link_session_id as string
+    const linkSessionId = payload.metadata.link_session_id as string
     const mfaType = payload.mfa_type as string
     const requestId = payload.request_id as string
     const viewName = payload.view_name as string
@@ -61,8 +61,8 @@ export default function PlaidLink({
     const errorMessage = payload.error_message as string
     const errorType = payload.error_type as string
     const exitStatus = payload.exist_status as string
-    const institutionId = payload.institution_id as string
-    const institutionName = payload.institution_name as string
+    const institutionId = payload.metadata.institution.institution_id as string
+    const institutionName = payload.metadata.institution.name as string
     const institutionSearchQuery = payload.institution_search_query as string
     const timestamp = payload.timestamp as string
 
