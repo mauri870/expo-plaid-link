@@ -1,5 +1,5 @@
 export interface LinkEvent {
-  eventName: LinkEventName | null
+  eventName: string
   metadata: LinkEventMetadata
 }
 
